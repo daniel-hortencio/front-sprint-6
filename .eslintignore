@@ -1,0 +1,10 @@
+*.css
+*.svg
+/*.js
+**/*.js
+dist/
+public/
+node_modules
+build
+/src/react-app-env.d.ts
+/src/reportWebVitals.ts
