@@ -13,3 +13,9 @@ export const getBrands = async (): Promise<BrandTypes[]> => {
         return brands;
     })
 }
+
+export const deleteBrand = async (id: number): Promise<number> => {
+    return api.delete(`/brands/${id}`).then(({ status }) => {
+        return status
+    })
+}
