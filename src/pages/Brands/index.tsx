@@ -8,7 +8,7 @@ const data = [
 ];
 
 const Home: React.FC = () => {
-  const tableHead = ['Marca', 'Modelo', 'Ano', 'Preço'];
+  const tableHead = ['Id', 'Marca', 'Modelo', 'Ano', 'Preço'];
 
   return (
     <DashboardTemplate>
@@ -16,18 +16,13 @@ const Home: React.FC = () => {
       <Table head={tableHead}>
         {data.map(auto => (
           <TableRow>
-            <TableCell component="th" id={auto.brand} scope="row">
-              {auto.brand}
+            <TableCell component="th" id={`${auto.id}`} scope="row">
+              {auto.id}
             </TableCell>
-            <TableCell component="th" id={auto.brand} scope="row">
-              {auto.model}
-            </TableCell>
-            <TableCell component="th" id={auto.brand} scope="row">
-              {auto.year}
-            </TableCell>
-            <TableCell component="th" id={auto.brand} scope="row">
-              R$ {auto.price}
-            </TableCell>
+            <TableCell scope="row">{auto.brand}</TableCell>
+            <TableCell scope="row">{auto.model}</TableCell>
+            <TableCell scope="row">{auto.year}</TableCell>
+            <TableCell scope="row">R$ {auto.price}</TableCell>
           </TableRow>
         ))}
       </Table>
