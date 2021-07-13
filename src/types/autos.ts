@@ -1,4 +1,4 @@
-export type autoTypes = {
+export type AutoTypes = {
     id: number;
     model: string;
     year: number;
