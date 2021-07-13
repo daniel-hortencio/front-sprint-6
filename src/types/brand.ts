@@ -1,4 +1,4 @@
-export type brandTypes = {
+export type BrandTypes = {
     id: number;
     name: string;
 }
