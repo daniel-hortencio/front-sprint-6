@@ -12,7 +12,7 @@ export const DashboardTemplate: React.FC = ({ children }) => {
         <Box width={mediaMD ? '20rem' : '100%'} mr={mediaMD ? 2 : 0}>
           <Navigation />
         </Box>
-        <Box flex="auto" px={2}>
+        <Box flex="auto" px={2} pt={2}>
           {children}
         </Box>
       </Box>
