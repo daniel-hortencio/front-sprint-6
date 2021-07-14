@@ -1,7 +1,6 @@
 import PageNotFound from '../pages/404';
 import Login from '../pages/Login';
 import Brands from '../pages/Brands';
-import Autos from '../pages/Autos';
 import { RouteTypes } from '../types/routes';
 
 export const routes: RouteTypes[] = [
@@ -15,12 +14,6 @@ export const routes: RouteTypes[] = [
         path: "/marcas",
         isPrivate: true,
         component: Brands,
-    },
-    {
-        exact: true,
-        path: "/veiculos",
-        isPrivate: true,
-        component: Autos,
     },
     {
         component: PageNotFound,
