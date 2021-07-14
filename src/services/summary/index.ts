@@ -1,25 +1,18 @@
-import { AutoTypes } from '../../types/autos'
+import { SummaryTypes } from '../../types/summary'
 import { api } from '../api'
 
-export const getAutos = async (): Promise<AutoTypes[]> => {
+export const getSummary = async (): Promise<SummaryTypes[]> => {
     return api.get("/summary").then(({ data }) => {
-        console.log(data)
-        const autos = data.map((auto: any) => {
+        console.log("summary", data);
+        const summary = data.map((sum: any) => {
             return {
-                id: auto.id,
-                model: auto.model,
-                year: auto.year,
-                price: auto.price,
-                brand: auto.brand
-            } as AutoTypes
+                id: sum.id,
+                name: sum.name,
+                autos: sum.autos,
+                totalPrice: sum.totalPrice
+            } as SummaryTypes
         })
 
-        return autos;
-    })
-}
-
-export const deleteAuto = async (id: number): Promise<number> => {
-    return api.delete(`/autos/${id}`).then(({ status }) => {
-        return status
+        return summary;
     })
 }

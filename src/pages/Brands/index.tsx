@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Box, Button } from '@material-ui/core';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -8,11 +9,13 @@ import { DashboardTemplate } from '../../templates/Dashboard';
 import Table from '../../components/Table';
 import { getBrands, deleteBrand } from '../../services/brands';
 import { BrandTypes } from '../../types/brand';
+import '../../styles.scss'
+
+import closeImg from '../../assets/close.svg'
+
 
 const Home: React.FC = () => {
   const [brands, setBrands] = useState<BrandTypes[]>([]);
-  const [openModal, setOpenModal] = useState(false);
-
   const tableHead = ['Id', 'Marca', 'Ações'];
 
   const handleDelete = (id: number) => {
@@ -70,13 +73,47 @@ const Home: React.FC = () => {
       .catch(err => console.log(err));
   }, []);
 
+  const [isNewBrandModalOpen, setIsNewBrandModalOpen] = useState(false)
+  const [name, setName] = useState('')
+
+  function handleOpenNewBrandModal() {
+    setIsNewBrandModalOpen(true);
+  }
+
+  function handleCloseNewBrandModal() {
+    setIsNewBrandModalOpen(false);
+  }
+
   return (
     <DashboardTemplate>
+      <Modal
+        isOpen={isNewBrandModalOpen}
+        onRequestClose={handleCloseNewBrandModal}
+        overlayClassName="reactModalOverlay"
+        className="reactModalContent"
+      > 
+        <button
+          type="button"
+          onClick={handleCloseNewBrandModal}
+          className="reactModalClose"
+        >
+          <img src={closeImg} alt="Fechar Modal" />
+        </button>
+
+        <h2>Cadastrar Marca</h2> 
+        <input
+          placeholder="Nome da marca"
+          value={name}
+          onChange={event => setName(event.target.value)}
+        />
+        <button type="submit">Cadastrar</button>
+        
+      </Modal>
       <Box mb={3}>
         <Button
           color="primary"
           variant="contained"
-          onClick={() => console.log("nova marca")}>
+          onClick={handleOpenNewBrandModal}>
           Adicionar nova Marca
         </Button>
       </Box>
