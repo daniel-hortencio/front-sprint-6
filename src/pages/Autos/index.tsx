@@ -3,7 +3,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
-import { TableRow, TableCell } from '@material-ui/core';
+import { TableRow, TableCell, Button, Box } from '@material-ui/core';
 import Table from '../../components/Table';
 import { AutoTypes } from '../../types/autos';
 import { getAutos, deleteAuto } from '../../services/autos';
@@ -71,34 +71,40 @@ const Home: React.FC = () => {
 
   return (
     <DashboardTemplate>
+      <Box mb={3}>
+        <Button 
+        color="primary" 
+        variant="contained"
+        onClick={() => console.log("novo veículo")}>Adicionar novo Veículo</Button>
+      </Box>
       <Table head={tableHead}>
         {autos.length > 0
           ? autos.map((auto: AutoTypes) => (
-              <TableRow>
-                <TableCell component="th" id={`${auto.id}`} scope="row">
-                  {auto.id}
-                </TableCell>
-                <TableCell scope="row">{auto.model}</TableCell>
-                <TableCell scope="row">{auto.year}</TableCell>
-                <TableCell scope="row">R$ {auto.price}</TableCell>
-                <TableCell>
-                  <Link to="/" style={{ color: 'inherit' }}>
-                    <CreateIcon />
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(auto.id)}
-                    style={{
-                      cursor: 'pointer',
-                      background: 'none',
-                      border: 'none',
-                    }}
-                  >
-                    <DeleteOutlineIcon />
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))
+            <TableRow>
+              <TableCell component="th" id={`${auto.id}`} scope="row">
+                {auto.id}
+              </TableCell>
+              <TableCell scope="row">{auto.model}</TableCell>
+              <TableCell scope="row">{auto.year}</TableCell>
+              <TableCell scope="row">R$ {auto.price}</TableCell>
+              <TableCell>
+                <Link to="/" style={{ color: 'inherit' }}>
+                  <CreateIcon />
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(auto.id)}
+                  style={{
+                    cursor: 'pointer',
+                    background: 'none',
+                    border: 'none',
+                  }}
+                >
+                  <DeleteOutlineIcon />
+                </button>
+              </TableCell>
+            </TableRow>
+          ))
           : 'Nenhum resutado encontrado'}
       </Table>
     </DashboardTemplate>

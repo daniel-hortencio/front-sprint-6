@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { TableRow, TableCell } from '@material-ui/core';
+import { TableRow, TableCell, Box, Button } from '@material-ui/core';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import Swal from 'sweetalert2';
@@ -72,32 +72,40 @@ const Home: React.FC = () => {
 
   return (
     <DashboardTemplate>
+      <Box mb={3}>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => console.log("nova marca")}>
+          Adicionar nova Marca
+        </Button>
+      </Box>
       <Table head={tableHead}>
         {brands.length > 0
           ? brands.map((brand: BrandTypes) => (
-              <TableRow>
-                <TableCell component="th" id={`${brand.id}`} scope="row">
-                  {brand.id}
-                </TableCell>
-                <TableCell scope="row">{brand.name}</TableCell>
-                <TableCell>
-                  <Link to="/" style={{ color: 'inherit' }}>
-                    <CreateIcon />
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(brand.id)}
-                    style={{
-                      cursor: 'pointer',
-                      background: 'none',
-                      border: 'none',
-                    }}
-                  >
-                    <DeleteOutlineIcon />
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))
+            <TableRow>
+              <TableCell component="th" id={`${brand.id}`} scope="row">
+                {brand.id}
+              </TableCell>
+              <TableCell scope="row">{brand.name}</TableCell>
+              <TableCell>
+                <Link to="/" style={{ color: 'inherit' }}>
+                  <CreateIcon />
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(brand.id)}
+                  style={{
+                    cursor: 'pointer',
+                    background: 'none',
+                    border: 'none',
+                  }}
+                >
+                  <DeleteOutlineIcon />
+                </button>
+              </TableCell>
+            </TableRow>
+          ))
           : 'Nenhum resutado encontrado'}
       </Table>
     </DashboardTemplate>
