@@ -9,14 +9,14 @@ import Table from '../../components/Table';
 import { AutoTypes } from '../../types/autos';
 import { getAutos, deleteAuto } from '../../services/autos';
 import { DashboardTemplate } from '../../templates/Dashboard';
-import styles from './styles.module.scss'
+import styles from './styles.module.scss';
 
-import closeImg from '../../assets/close.svg'
+import closeImg from '../../assets/close.svg';
 
 const Home: React.FC = () => {
   const [autos, setAutos] = useState<AutoTypes[]>([]);
 
-  const tableHead = ['Id', 'Modelo', 'Ano', 'Preço', 'Ações'];
+  const tableHead = ['Id', 'Marca', 'Modelo', 'Ano', 'Preço', 'Ações'];
 
   const handleDelete = (id: number) => {
     Swal.fire({
@@ -73,10 +73,10 @@ const Home: React.FC = () => {
       .catch(err => console.log(err));
   }, []);
 
-  const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false)
-  const [name, setName] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [year, setYear] = useState('')
+  const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState(0);
+  const [year, setYear] = useState('');
 
   function handleOpenNewAutoModal() {
     setIsNewAutoModalOpen(true);
@@ -101,69 +101,69 @@ const Home: React.FC = () => {
         >
           <img src={closeImg} alt="Fechar Modal" />
         </button>
-        <div >
-                <h2>Cadastrar veículo</h2>
+        <div>
+          <h2>Cadastrar veículo</h2>
 
-                <input
-                    placeholder="Nome"
-                    value={name}
-                    onChange={event => setName(event.target.value)}
-                />
+          <input
+            placeholder="Nome"
+            value={name}
+            onChange={event => setName(event.target.value)}
+          />
 
-                <input
-                    type="number"
-                    placeholder="Valor"
-                    value={amount}
-                    onChange={event => setAmount(Number(event.target.value))}
+          <input
+            type="number"
+            placeholder="Valor"
+            value={amount}
+            onChange={event => setAmount(Number(event.target.value))}
+          />
 
-                />
+          <input
+            placeholder="ano"
+            value={year}
+            onChange={event => setYear(event.target.value)}
+          />
 
-                <input
-                    placeholder="ano"
-                    value={year}
-                    onChange={event => setYear(event.target.value)}
-                />
-
-                <button type="submit">
-                    Cadastrar
-                </button>
-
-            </div>
+          <button type="submit">Cadastrar</button>
+        </div>
       </Modal>
       <Box mb={3}>
-        <Button 
-        color="primary" 
-        variant="contained"
-        onClick={handleOpenNewAutoModal}>Adicionar novo Veículo</Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleOpenNewAutoModal}
+        >
+          Adicionar novo Veículo
+        </Button>
       </Box>
       <Table head={tableHead}>
         {autos.length > 0
           ? autos.map((auto: AutoTypes) => (
-            <TableRow>
-              <TableCell component="th" id={`${auto.id}`} scope="row">
-                {auto.id}
-              </TableCell>
-              <TableCell scope="row">{auto.model}</TableCell>
-              <TableCell scope="row">{auto.year}</TableCell>
-              <TableCell scope="row">R$ {auto.price}</TableCell>
-              <TableCell>
-                <Link to="/" style={{ color: 'inherit' }}>
-                  <CreateIcon />
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(auto.id)}
-                  style={{
-                    cursor: 'pointer',
-                    background: 'none',
-                    border: 'none',
-                  }}
-                >
-                  <DeleteOutlineIcon />
-                </button>
-              </TableCell>
-            </TableRow>
-          ))
+              <TableRow>
+                <TableCell component="th" id={`${auto.id}`} scope="row">
+                  {auto.id}
+                </TableCell>
+                <TableCell scope="row">{auto.brand?.name || '-'}</TableCell>
+                <TableCell scope="row">{auto.model}</TableCell>
+                <TableCell scope="row">{auto.year}</TableCell>
+                <TableCell scope="row">R$ {auto.price}</TableCell>
+                <TableCell>
+                  <Link to="/" style={{ color: 'inherit' }}>
+                    <CreateIcon />
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(auto.id)}
+                    style={{
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                    }}
+                  >
+                    <DeleteOutlineIcon />
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))
           : 'Nenhum resutado encontrado'}
       </Table>
     </DashboardTemplate>
