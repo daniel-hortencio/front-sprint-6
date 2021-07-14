@@ -3,7 +3,7 @@ import { LoginTemplate } from '../../templates/Login';
 
 const Home: React.FC = () => (
   <LoginTemplate>
-    <h1>Página não encontrada 404</h1>
+    <h1>Página não encontrada</h1>
   </LoginTemplate>
 );
 
