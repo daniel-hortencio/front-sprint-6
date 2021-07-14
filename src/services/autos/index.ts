@@ -2,7 +2,7 @@ import { AutoTypes } from '../../types/autos'
 import { api } from '../api'
 
 export const getAutos = async (): Promise<AutoTypes[]> => {
-    return api.get("/autos").then(({data}) => {
+    return api.get("/autos").then(({ data }) => {
         console.log(data)
         const autos = data.map((auto: any) => {
             return {
@@ -15,5 +15,11 @@ export const getAutos = async (): Promise<AutoTypes[]> => {
         })
 
         return autos;
+    })
+}
+
+export const deleteAuto = async (id: number): Promise<number> => {
+    return api.delete(`/autos/${id}`).then(({ status }) => {
+        return status
     })
 }
