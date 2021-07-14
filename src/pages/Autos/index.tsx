@@ -74,6 +74,9 @@ const Home: React.FC = () => {
   }, []);
 
   const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false)
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState(0)
+  const [year, setYear] = useState('')
 
   function handleOpenNewAutoModal() {
     setIsNewAutoModalOpen(true);
@@ -82,11 +85,6 @@ const Home: React.FC = () => {
   function handleCloseNewAutoModal() {
     setIsNewAutoModalOpen(false);
   }
-
-  const [name, setName] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [year, setYear] = useState('')
-
 
   return (
     <DashboardTemplate>
