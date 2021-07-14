@@ -9,7 +9,6 @@ import Table from '../../components/Table';
 import { AutoTypes } from '../../types/autos';
 import { getAutos, deleteAuto } from '../../services/autos';
 import { DashboardTemplate } from '../../templates/Dashboard';
-import styles from './styles.module.scss'
 
 import closeImg from '../../assets/close.svg'
 
@@ -91,18 +90,18 @@ const Home: React.FC = () => {
       <Modal
         isOpen={isNewAutoModalOpen}
         onRequestClose={handleCloseNewAutoModal}
-        overlayClassName={styles.reactModalOverlay}
-        className={styles.reactModalContent}
+        overlayClassName="reactModalOverlay"
+        className="reactModalContent"
       >
         <button
           type="button"
           onClick={handleCloseNewAutoModal}
-          className={styles.reactModalClose}
+          className="reactModalClose"
         >
           <img src={closeImg} alt="Fechar Modal" />
         </button>
-        <div >
-                <h2>Cadastrar veículo</h2>
+        <div>
+                <h2>Cadastrar Veículo</h2>
 
                 <input
                     placeholder="Nome"
