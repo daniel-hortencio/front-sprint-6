@@ -10,7 +10,7 @@ export const getAutos = async (): Promise<AutoTypes[]> => {
                 model: auto.model,
                 year: auto.year,
                 price: auto.price,
-                brandId: auto.brandId
+                brand: auto.brand
             } as AutoTypes
         })
 
