@@ -1,27 +1,26 @@
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { Link } from 'react-router-dom';
-import { TableRow, TableCell, Box, Button } from '@material-ui/core';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import Swal from 'sweetalert2';
-import { DashboardTemplate } from '../../templates/Dashboard';
+import { Link } from 'react-router-dom';
+import { TableRow, TableCell, Button, Box } from '@material-ui/core';
 import Table from '../../components/Table';
-import { getBrands, deleteBrand } from '../../services/brands';
-import { BrandTypes } from '../../types/brand';
-import '../../styles.scss'
+import { AutoTypes } from '../../types/autos';
+import { getAutos, deleteAuto } from '../../services/autos';
+import { DashboardTemplate } from '../../templates/Dashboard';
 
 import closeImg from '../../assets/close.svg'
 
-
 const Home: React.FC = () => {
-  const [brands, setBrands] = useState<BrandTypes[]>([]);
-  const tableHead = ['Id', 'Marca', 'Ações'];
+  const [autos, setAutos] = useState<AutoTypes[]>([]);
+
+  const tableHead = ['Id', 'Modelo', 'Ano', 'Preço', 'Ações'];
 
   const handleDelete = (id: number) => {
     Swal.fire({
       icon: 'warning',
-      title: 'Tem certeza que quer deletar essa marca? ',
+      title: 'Tem certeza que quer deletar esse veículo? ',
       text: 'Essa ação não poderá ser revertida. Para confirmar digite DELETAR no campo abaixo:',
       input: 'text',
       inputAttributes: {
@@ -33,12 +32,12 @@ const Home: React.FC = () => {
       inputValidator: value => {
         const valueToString = `${value}`;
         if (valueToString.toUpperCase() === 'DELETAR') {
-          deleteBrand(id)
+          deleteAuto(id)
             .then(status => {
-              const filteredBrands = brands
-                .filter(brand => brand.id !== id)
+              const filteredAutos = autos
+                .filter(auto => auto.id !== id)
                 .map(brand => brand);
-              setBrands(filteredBrands);
+              setAutos(filteredAutos);
               if (status === 200) {
                 Swal.fire({
                   icon: 'success',
@@ -68,70 +67,91 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    getBrands()
-      .then((data: BrandTypes[]) => setBrands(data))
+    getAutos()
+      .then((data: AutoTypes[]) => setAutos(data))
       .catch(err => console.log(err));
   }, []);
 
-  const [isNewBrandModalOpen, setIsNewBrandModalOpen] = useState(false)
+  const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false)
   const [name, setName] = useState('')
+  const [amount, setAmount] = useState(0)
+  const [year, setYear] = useState('')
 
-  function handleOpenNewBrandModal() {
-    setIsNewBrandModalOpen(true);
+  function handleOpenNewAutoModal() {
+    setIsNewAutoModalOpen(true);
   }
 
-  function handleCloseNewBrandModal() {
-    setIsNewBrandModalOpen(false);
+  function handleCloseNewAutoModal() {
+    setIsNewAutoModalOpen(false);
   }
 
   return (
     <DashboardTemplate>
       <Modal
-        isOpen={isNewBrandModalOpen}
-        onRequestClose={handleCloseNewBrandModal}
+        isOpen={isNewAutoModalOpen}
+        onRequestClose={handleCloseNewAutoModal}
         overlayClassName="reactModalOverlay"
         className="reactModalContent"
-      > 
+      >
         <button
           type="button"
-          onClick={handleCloseNewBrandModal}
+          onClick={handleCloseNewAutoModal}
           className="reactModalClose"
         >
           <img src={closeImg} alt="Fechar Modal" />
         </button>
+        <div>
+                <h2>Cadastrar Veículo</h2>
 
-        <h2>Cadastrar Marca</h2> 
-        <input
-          placeholder="Nome da marca"
-          value={name}
-          onChange={event => setName(event.target.value)}
-        />
-        <button type="submit">Cadastrar</button>
-        
+                <input
+                    placeholder="Nome"
+                    value={name}
+                    onChange={event => setName(event.target.value)}
+                />
+
+                <input
+                    type="number"
+                    placeholder="Valor"
+                    value={amount}
+                    onChange={event => setAmount(Number(event.target.value))}
+
+                />
+
+                <input
+                    placeholder="ano"
+                    value={year}
+                    onChange={event => setYear(event.target.value)}
+                />
+
+                <button type="submit">
+                    Cadastrar
+                </button>
+
+            </div>
       </Modal>
       <Box mb={3}>
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={handleOpenNewBrandModal}>
-          Adicionar nova Marca
-        </Button>
+        <Button 
+        color="primary" 
+        variant="contained"
+        onClick={handleOpenNewAutoModal}>Adicionar novo Veículo</Button>
       </Box>
       <Table head={tableHead}>
-        {brands.length > 0
-          ? brands.map((brand: BrandTypes) => (
+        {autos.length > 0
+          ? autos.map((auto: AutoTypes) => (
             <TableRow>
-              <TableCell component="th" id={`${brand.id}`} scope="row">
-                {brand.id}
+              <TableCell component="th" id={`${auto.id}`} scope="row">
+                {auto.id}
               </TableCell>
-              <TableCell scope="row">{brand.name}</TableCell>
+              <TableCell scope="row">{auto.model}</TableCell>
+              <TableCell scope="row">{auto.year}</TableCell>
+              <TableCell scope="row">R$ {auto.price}</TableCell>
               <TableCell>
                 <Link to="/" style={{ color: 'inherit' }}>
                   <CreateIcon />
                 </Link>
                 <button
                   type="button"
-                  onClick={() => handleDelete(brand.id)}
+                  onClick={() => handleDelete(auto.id)}
                   style={{
                     cursor: 'pointer',
                     background: 'none',

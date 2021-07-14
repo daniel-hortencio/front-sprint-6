@@ -1,0 +1,60 @@
+{
+  "autos": [ 
+    {
+      "id": 1,
+      "modelo": "EcoSport FREESTYLE 1.5 12V Flex 5p Aut.",
+      "ano": 2019,
+      "valor": 76835,
+      "marcaId": 29
+    },
+    {
+      "id": 2,
+      "modelo": "Ka 1.0 8V/1.0 8V ST Flex 3p",
+      "ano": 2013,
+      "valor": 21381,
+      "marcaId": 29
+    },
+    {
+      "id": 3,
+      "modelo": "AGILE LT 1.4 MPFI 8V FlexPower 5p",
+      "ano": 2010,
+      "valor": 25104,
+      "marcaId": 33
+    },
+    {
+      "id": 4,
+      "modelo": "Celta 1.0/Super/N.Piq.1.0 MPFi VHC 8V 3p",
+      "ano": 2005,
+      "valor": 13390,
+      "marcaId": 33
+    },
+    {
+      "id": 5,
+      "modelo": "Fusca",
+      "ano": 1985,
+      "valor": 11147,
+      "marcaId": 88
+    },
+    {
+      "id": 6,
+      "modelo": "Palio Celebration 1.0 Fire Flex 8V 4p",
+      "ano": 2007,
+      "valor": 18126,
+      "marcaId": 27
+    },
+    {
+      "id": 7,
+      "modelo": "Uno Mille 1.0/ i.e./Electronic/Brio 2p",
+      "ano": 1997,
+      "valor": 7758,
+      "marcaId": 27
+    },
+    {
+      "id": 8,
+      "modelo": "Strada Endurance 1.4 Flex 8V CS Plus",
+      "ano": 2021,
+      "valor": 71415,
+      "marcaId": 27
+    }
+  ]
+}

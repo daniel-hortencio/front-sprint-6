@@ -1,0 +1,43 @@
+.Container {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.Content {
+    background: url("https://images.unsplash.com/photo-1612477566180-c89e9a67d675?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NzR8fGNhcnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60") no-repeat center;
+    background-size: cover;
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+    h2 {
+        font-family: Roboto, "Helvetica", sans-serif;
+        font-size: 3rem;
+        font-weight: 700;
+        text-align: center;
+        color: #FBC920; 
+        margin-top: 2rem;
+        span {
+            color: #000;
+        }
+    }
+    p {
+        font-family: Roboto, "Helvetica", sans-serif;
+        margin: 0 auto;
+        width: 100%;
+        padding: 1rem;
+        font-weight: 400;
+        font-size: 3rem;
+        color: #fff;
+        
+        text-align: justify;
+
+
+        span {
+            color: #FBC920; 
+        }
+    }
+}
+
