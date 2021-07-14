@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import Swal from 'sweetalert2';
@@ -8,6 +9,9 @@ import Table from '../../components/Table';
 import { AutoTypes } from '../../types/autos';
 import { getAutos, deleteAuto } from '../../services/autos';
 import { DashboardTemplate } from '../../templates/Dashboard';
+import styles from './styles.module.scss'
+
+import closeImg from '../../assets/close.svg'
 
 const Home: React.FC = () => {
   const [autos, setAutos] = useState<AutoTypes[]>([]);
@@ -69,13 +73,68 @@ const Home: React.FC = () => {
       .catch(err => console.log(err));
   }, []);
 
+  const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false)
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState(0)
+  const [year, setYear] = useState('')
+
+  function handleOpenNewAutoModal() {
+    setIsNewAutoModalOpen(true);
+  }
+
+  function handleCloseNewAutoModal() {
+    setIsNewAutoModalOpen(false);
+  }
+
   return (
     <DashboardTemplate>
+      <Modal
+        isOpen={isNewAutoModalOpen}
+        onRequestClose={handleCloseNewAutoModal}
+        overlayClassName={styles.reactModalOverlay}
+        className={styles.reactModalContent}
+      >
+        <button
+          type="button"
+          onClick={handleCloseNewAutoModal}
+          className={styles.reactModalClose}
+        >
+          <img src={closeImg} alt="Fechar Modal" />
+        </button>
+        <div >
+                <h2>Cadastrar veículo</h2>
+
+                <input
+                    placeholder="Nome"
+                    value={name}
+                    onChange={event => setName(event.target.value)}
+                />
+
+                <input
+                    type="number"
+                    placeholder="Valor"
+                    value={amount}
+                    onChange={event => setAmount(Number(event.target.value))}
+
+                />
+
+                <input
+                    placeholder="ano"
+                    value={year}
+                    onChange={event => setYear(event.target.value)}
+                />
+
+                <button type="submit">
+                    Cadastrar
+                </button>
+
+            </div>
+      </Modal>
       <Box mb={3}>
         <Button 
         color="primary" 
         variant="contained"
-        onClick={() => console.log("novo veículo")}>Adicionar novo Veículo</Button>
+        onClick={handleOpenNewAutoModal}>Adicionar novo Veículo</Button>
       </Box>
       <Table head={tableHead}>
         {autos.length > 0
