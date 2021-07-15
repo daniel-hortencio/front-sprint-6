@@ -1,7 +1,6 @@
 /* eslint-disable radix */
 import { FormEvent, useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { v4 as uuidv4 } from 'uuid';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import Swal from 'sweetalert2';
@@ -9,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Button, Box } from '@material-ui/core';
 import Table from '../../components/Table';
 import { AutoTypes } from '../../types/autos';
-import { getAutos, deleteAuto, createAutos } from '../../services/autos';
+import { getAutos, getAuto, deleteAuto, createAutos } from '../../services/autos';
 import { BrandTypes } from '../../types/brand';
 import { getBrands } from '../../services/brands';
 
@@ -25,6 +24,7 @@ const Home: React.FC = () => {
   const [price, setPrice] = useState('');
   const [year, setYear] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
+  const [renderForm, setRenderForm] = useState(<></>)
 
   const tableHead = ['Id', 'Marca', 'Modelo', 'Ano', 'Preço', 'Ações'];
 
@@ -134,28 +134,26 @@ const Home: React.FC = () => {
     handleCloseNewAutoModal();
   }
 
+  function handleUpdateAuto(id: number) {
+    getAuto(id).then(res => {
+      setModel(res.model);
+      setYear(`${res.year}`);
+      setPrice(`${res.price}`)
+      setSelectedBrand(`${res!.brand!.id}`)
+      setIsNewAutoModalOpen(true)
+    })
+
+  }
+
   useEffect(() => {
     getAutos()
       .then((data: AutoTypes[]) => setAutos(data))
       .catch(err => console.log(err));
   }, []);
 
-  return (
-    <DashboardTemplate>
-      <Modal
-        isOpen={isNewAutoModalOpen}
-        onRequestClose={handleCloseNewAutoModal}
-        overlayClassName="reactModalOverlay"
-        className="reactModalContent"
-      >
-        <button
-          type="button"
-          onClick={handleCloseNewAutoModal}
-          className="reactModalClose"
-        >
-          <img src={closeImg} alt="Fechar Modal" />
-        </button>
-        <form onSubmit={handleCreateNewAuto}>
+  const getForm = () => {
+    setRenderForm(
+      <form onSubmit={() => console.log("")}>
           <h2>Cadastrar Veículo</h2>
 
           <input
@@ -180,6 +178,7 @@ const Home: React.FC = () => {
           />
           <select
             name="select"
+            value={selectedBrand}
             onChange={e => {
               setSelectedBrand(e.target.value);
             }}
@@ -196,6 +195,25 @@ const Home: React.FC = () => {
 
           <button type="submit">Cadastrar</button>
         </form>
+    )
+  }
+
+  return (
+    <DashboardTemplate>
+      <Modal
+        isOpen={isNewAutoModalOpen}
+        onRequestClose={handleCloseNewAutoModal}
+        overlayClassName="reactModalOverlay"
+        className="reactModalContent"
+      >
+        <button
+          type="button"
+          onClick={handleCloseNewAutoModal}
+          className="reactModalClose"
+        >
+          <img src={closeImg} alt="Fechar Modal" />
+        </button>
+        {renderForm}
       </Modal>
       <Box mb={3}>
         <Button
@@ -218,9 +236,17 @@ const Home: React.FC = () => {
                 <TableCell scope="row">{auto.year}</TableCell>
                 <TableCell scope="row">R$ {auto.price}</TableCell>
                 <TableCell>
-                  <Link to="/" style={{ color: 'inherit' }}>
+                <button
+                    type="button"
+                    onClick={getForm}
+                    style={{
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                    }}
+                  >
                     <CreateIcon />
-                  </Link>
+                  </button>
                   <button
                     type="button"
                     onClick={() => handleDelete(auto.id)}
