@@ -2,6 +2,7 @@ import PageNotFound from '../pages/404';
 import Login from '../pages/Login';
 import Brands from '../pages/Brands';
 import Autos from '../pages/Autos';
+import EditAuto from '../pages/AutosEdit'
 import Summary from '../pages/Summary';
 import { RouteTypes } from '../types/routes';
 
@@ -22,6 +23,12 @@ export const routes: RouteTypes[] = [
         path: "/veiculos",
         isPrivate: true,
         component: Autos,
+    },
+    {
+        exact: true,
+        path: `/editar-veiculo/:id`,
+        isPrivate: true,
+        component: EditAuto,
     },
     {
         exact: true,
