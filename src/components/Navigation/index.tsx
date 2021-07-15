@@ -1,16 +1,17 @@
 import MenuIcon from '@material-ui/icons/Menu';
-import { MenuItem } from '@material-ui/core';
+import { Button, MenuItem } from '@material-ui/core';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { media } from '../../constants/material';
-
+import { useAuth } from '../../hooks/useAuth';
 
 const Navigation = () => {
   const location = useLocation();
   const mediaMD = useMediaQuery(media.md);
+  const { handleLogout } = useAuth();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
