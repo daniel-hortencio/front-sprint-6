@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import { v4 as uuidv4 } from 'uuid';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import Swal from 'sweetalert2';
@@ -8,12 +9,28 @@ import { TableRow, TableCell, Button, Box } from '@material-ui/core';
 import Table from '../../components/Table';
 import { AutoTypes } from '../../types/autos';
 import { getAutos, deleteAuto } from '../../services/autos';
+import { BrandTypes } from '../../types/brand'
+import { getBrands } from '../../services/brands';
+import {api} from '../../services/api'
+
 import { DashboardTemplate } from '../../templates/Dashboard';
 
 import closeImg from '../../assets/close.svg';
 
+// interface SelectedBrand {
+//   brandId: number;
+//   brandName: string;
+// }
+
 const Home: React.FC = () => {
   const [autos, setAutos] = useState<AutoTypes[]>([]);
+  const [brandCar, setBrandCar] = useState<BrandTypes[]>([]);
+  const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState(0);
+  const [year, setYear] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
+
 
   const tableHead = ['Id', 'Marca', 'Modelo', 'Ano', 'Preço', 'Ações'];
 
@@ -72,10 +89,11 @@ const Home: React.FC = () => {
       .catch(err => console.log(err));
   }, []);
 
-  const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false);
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState(0);
-  const [year, setYear] = useState('');
+  useEffect(() => {
+    getBrands()
+      .then((data: BrandTypes[]) => setBrandCar(data))
+      .catch(err => console.log(err));
+  }, []);
 
   function handleOpenNewAutoModal() {
     setIsNewAutoModalOpen(true);
@@ -84,6 +102,34 @@ const Home: React.FC = () => {
   function handleCloseNewAutoModal() {
     setIsNewAutoModalOpen(false);
   }
+
+   function handleCreateNewAuto(event: FormEvent) {
+    event.preventDefault()
+     
+    const data = {
+      id:uuidv4(),
+      model: name, 
+      year,
+      price: amount, 
+      brand: selectedBrand
+    }
+
+    api.post("/autos", data).then((response) => {
+      console.log(response)
+      return response
+    })
+    
+    handleCloseNewAutoModal()
+    setName('')
+    setAmount(0)
+    setYear('')
+  }
+
+  useEffect(() => {
+    getAutos()
+      .then((data: AutoTypes[]) => setAutos(data))
+      .catch(err => console.log(err));
+  }, []);
 
   return (
     <DashboardTemplate>
@@ -100,11 +146,12 @@ const Home: React.FC = () => {
         >
           <img src={closeImg} alt="Fechar Modal" />
         </button>
-        <div>
+        <form onSubmit={handleCreateNewAuto}>
                 <h2>Cadastrar Veículo</h2>
 
                 <input
                     placeholder="Nome"
+                    type="text"
                     value={name}
                     onChange={event => setName(event.target.value)}
                 />
@@ -122,12 +169,22 @@ const Home: React.FC = () => {
                     value={year}
                     onChange={event => setYear(event.target.value)}
                 />
+                <select name="select" onChange={event => setSelectedBrand(event.target.value)}>
+                  {brandCar.map(brand => (
+                    <option 
+                      key={brand.id} 
+                      value={brand.id}
+                    > 
+                      {brand.name}
+                    </option>
+                  ))}
+                </select>
 
                 <button type="submit">
                     Cadastrar
                 </button>
 
-            </div>
+        </form>
 
       </Modal>
       <Box mb={3}>

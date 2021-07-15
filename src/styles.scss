@@ -13,7 +13,7 @@
         text-align:center;
     }
 
-    input {
+    input, select {
         width: 100%;
         padding: 0 1.5rem;
         height: 4rem;
@@ -30,6 +30,10 @@
         & + input {
             margin-top: 1rem;
         }
+    }
+
+    select {
+        margin-top: 1.5rem;
     }
 
     button[type="submit"] {
