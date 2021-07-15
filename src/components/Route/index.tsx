@@ -12,8 +12,6 @@ const Route: React.FC<RouteTypes> = ({
   // const { user } = useAuth();
   const { isAuthenticated } = useAuth();
 
-  console.log({ isPrivate, isAuthenticated });
-
   return isPrivate === isAuthenticated ? (
     <ReactDOMRoute path={path} exact={exact} component={component} />
   ) : (
@@ -23,7 +21,7 @@ const Route: React.FC<RouteTypes> = ({
       render={({ location }) => (
         <Redirect
           to={{
-            pathname: isPrivate ? '/' : '/marcas',
+            pathname: isPrivate ? '/' : '/dashboard',
             state: { from: location },
           }}
         />

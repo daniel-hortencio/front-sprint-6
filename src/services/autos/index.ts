@@ -29,12 +29,12 @@ export const getAutos = async (): Promise<AutoTypes[]> => {
 export const getAuto = async (id: number): Promise<AutoTypes> => {
     return api.get(`/autos/${id}`).then(({ data }) => {
         console.log(data)
-        const auto ={
-                id: data.id,
-                model: data.model,
-                year: data.year,
-                price: data.price,
-                brand: data.brand
+        const auto = {
+            id: data.id,
+            model: data.model,
+            year: data.year,
+            price: data.price,
+            brand: data.brand
         } as AutoTypes
         return auto;
     })
