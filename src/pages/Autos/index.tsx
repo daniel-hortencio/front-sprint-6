@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import { FormEvent, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,33 +9,27 @@ import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Button, Box } from '@material-ui/core';
 import Table from '../../components/Table';
 import { AutoTypes } from '../../types/autos';
-import { getAutos, deleteAuto } from '../../services/autos';
-import { BrandTypes } from '../../types/brand'
+import { getAutos, deleteAuto, createAutos } from '../../services/autos';
+import { BrandTypes } from '../../types/brand';
 import { getBrands } from '../../services/brands';
-import {api} from '../../services/api'
 
 import { DashboardTemplate } from '../../templates/Dashboard';
 
 import closeImg from '../../assets/close.svg';
-
-// interface SelectedBrand {
-//   brandId: number;
-//   brandName: string;
-// }
 
 const Home: React.FC = () => {
   const [autos, setAutos] = useState<AutoTypes[]>([]);
   const [brandCar, setBrandCar] = useState<BrandTypes[]>([]);
   const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false);
   const [model, setModel] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
   const [year, setYear] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
-
 
   const tableHead = ['Id', 'Marca', 'Modelo', 'Ano', 'Preço', 'Ações'];
 
   const handleDelete = (id: number) => {
+    console.log(id);
     Swal.fire({
       icon: 'warning',
       title: 'Tem certeza que quer deletar esse veículo? ',
@@ -53,7 +48,7 @@ const Home: React.FC = () => {
             .then(status => {
               const filteredAutos = autos
                 .filter(auto => auto.id !== id)
-                .map(brand => brand);
+                .map(auto => auto);
               setAutos(filteredAutos);
               if (status === 200) {
                 Swal.fire({
@@ -101,28 +96,42 @@ const Home: React.FC = () => {
 
   function handleCloseNewAutoModal() {
     setIsNewAutoModalOpen(false);
+    setModel('');
+    setPrice('');
+    setYear('');
   }
 
-   function handleCreateNewAuto(event: FormEvent) {
-    event.preventDefault()
-     
-    const data = {
-      id:uuidv4(),
-      model,
-      year,
-      price,
-      brandId: selectedBrand
-    }
+  function handleCreateNewAuto(event: FormEvent) {
+    event.preventDefault();
 
-    api.post("/autos", data).then((response) => {
-      console.log(response)
-      return response
-    })
-    
-    handleCloseNewAutoModal()
-    setModel('')
-    setPrice(0)
-    setYear('')
+    const body = {
+      model,
+      price: parseInt(price),
+      year: parseInt(year),
+      brandId: parseInt(selectedBrand),
+    };
+
+    createAutos(body)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Veículo criado com sucesso',
+          timer: 1500,
+        });
+        getAutos()
+          .then((data: AutoTypes[]) => setAutos(data))
+          .catch(err => console.log(err));
+      })
+      .catch(err => {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Não foi possível criar este veículo',
+          text: 'Nossa equipe já está trabalhando para resolver isso',
+        });
+      });
+
+    handleCloseNewAutoModal();
   }
 
   useEffect(() => {
@@ -147,45 +156,46 @@ const Home: React.FC = () => {
           <img src={closeImg} alt="Fechar Modal" />
         </button>
         <form onSubmit={handleCreateNewAuto}>
-                <h2>Cadastrar Veículo</h2>
+          <h2>Cadastrar Veículo</h2>
 
-                <input
-                    placeholder="Nome do carro"
-                    type="text"
-                    value={model}
-                    onChange={event => setModel(event.target.value)}
-                />
+          <input
+            placeholder="Nome do carro"
+            type="text"
+            value={model}
+            onChange={event => setModel(event.target.value)}
+          />
 
-                <input
-                    type="number"
-                    placeholder="Valor do veículo"
-                    value={price}
-                    onChange={event => setPrice(Number(event.target.value))}
+          <input
+            type="number"
+            placeholder="Valor do veículo"
+            value={price}
+            onChange={event => setPrice(event.target.value)}
+          />
 
-                />
+          <input
+            placeholder="ano"
+            value={year}
+            type="number"
+            onChange={e => setYear(e.target.value)}
+          />
+          <select
+            name="select"
+            onChange={e => {
+              setSelectedBrand(e.target.value);
+            }}
+          >
+            <option defaultChecked disabled>
+              Selecione uma marca
+            </option>
+            {brandCar.map(brand => (
+              <option key={brand.id} value={brand.id}>
+                {brand.name}
+              </option>
+            ))}
+          </select>
 
-                <input
-                    placeholder="ano"
-                    value={year}
-                    onChange={event => setYear(event.target.value)}
-                />
-                <select name="select" onChange={event => setSelectedBrand(event.target.value)}>
-                  {brandCar.map(brand => (
-                    <option 
-                      key={brand.id} 
-                      value={brand.name}
-                    > 
-                      {brand.name}
-                    </option>
-                  ))}
-                </select>
-
-                <button type="submit">
-                    Cadastrar
-                </button>
-
+          <button type="submit">Cadastrar</button>
         </form>
-
       </Modal>
       <Box mb={3}>
         <Button

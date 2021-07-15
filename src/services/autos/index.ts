@@ -17,28 +17,23 @@ export const getAutos = async (): Promise<AutoTypes[]> => {
         return autos;
     })
 }
-// interface CreateAutosDto {
-//     model: string,
+interface CreateAutosDTO {
+    model: string,
+    year: number,
+    price: number
+    brandId: number,
+}
 
-//     year: number,
-// }
+export const createAutos = async (body: CreateAutosDTO): Promise<any> => {
 
-// export const createAutos = async (body ): Promise<any> => {
-//     const body = {
-//         model: name,
-//         year: 1976,
-//         price: 300000,
-//         brandId: 2
-//     }
-
-//     return api.post("/autos", body).then((res) => {
-//         console.log(res)
-//         return res
-//     })
-// }
+    return api.post("/autos", body).then((res) => {
+        return res
+    })
+}
 
 export const deleteAuto = async (id: number): Promise<number> => {
     return api.delete(`/autos/${id}`).then(({ status }) => {
+        console.log(status)
         return status
     })
 }
