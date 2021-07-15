@@ -26,8 +26,8 @@ const Home: React.FC = () => {
   const [autos, setAutos] = useState<AutoTypes[]>([]);
   const [brandCar, setBrandCar] = useState<BrandTypes[]>([]);
   const [isNewAutoModalOpen, setIsNewAutoModalOpen] = useState(false);
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState(0);
+  const [model, setModel] = useState('');
+  const [price, setPrice] = useState(0);
   const [year, setYear] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
 
@@ -89,15 +89,15 @@ const Home: React.FC = () => {
       .catch(err => console.log(err));
   }, []);
 
+  function handleOpenNewAutoModal() {
+    setIsNewAutoModalOpen(true);
+  }
+
   useEffect(() => {
     getBrands()
       .then((data: BrandTypes[]) => setBrandCar(data))
       .catch(err => console.log(err));
   }, []);
-
-  function handleOpenNewAutoModal() {
-    setIsNewAutoModalOpen(true);
-  }
 
   function handleCloseNewAutoModal() {
     setIsNewAutoModalOpen(false);
@@ -108,10 +108,10 @@ const Home: React.FC = () => {
      
     const data = {
       id:uuidv4(),
-      model: name, 
+      model,
       year,
-      price: amount, 
-      brand: selectedBrand
+      price,
+      brandId: selectedBrand
     }
 
     api.post("/autos", data).then((response) => {
@@ -120,8 +120,8 @@ const Home: React.FC = () => {
     })
     
     handleCloseNewAutoModal()
-    setName('')
-    setAmount(0)
+    setModel('')
+    setPrice(0)
     setYear('')
   }
 
@@ -150,17 +150,17 @@ const Home: React.FC = () => {
                 <h2>Cadastrar Veículo</h2>
 
                 <input
-                    placeholder="Nome"
+                    placeholder="Nome do carro"
                     type="text"
-                    value={name}
-                    onChange={event => setName(event.target.value)}
+                    value={model}
+                    onChange={event => setModel(event.target.value)}
                 />
 
                 <input
                     type="number"
-                    placeholder="Valor"
-                    value={amount}
-                    onChange={event => setAmount(Number(event.target.value))}
+                    placeholder="Valor do veículo"
+                    value={price}
+                    onChange={event => setPrice(Number(event.target.value))}
 
                 />
 
@@ -173,7 +173,7 @@ const Home: React.FC = () => {
                   {brandCar.map(brand => (
                     <option 
                       key={brand.id} 
-                      value={brand.id}
+                      value={brand.name}
                     > 
                       {brand.name}
                     </option>
