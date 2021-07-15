@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import Modal from 'react-modal';
+import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Box, Button } from '@material-ui/core';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -8,11 +10,14 @@ import { DashboardTemplate } from '../../templates/Dashboard';
 import Table from '../../components/Table';
 import { getBrands, deleteBrand } from '../../services/brands';
 import { BrandTypes } from '../../types/brand';
+import '../../styles.scss'
+import {api} from '../../services/api'
+
+import closeImg from '../../assets/close.svg'
+
 
 const Home: React.FC = () => {
   const [brands, setBrands] = useState<BrandTypes[]>([]);
-  const [openModal, setOpenModal] = useState(false);
-
   const tableHead = ['Id', 'Marca', 'Ações'];
 
   const handleDelete = (id: number) => {
@@ -70,13 +75,65 @@ const Home: React.FC = () => {
       .catch(err => console.log(err));
   }, []);
 
+  const [isNewBrandModalOpen, setIsNewBrandModalOpen] = useState(false)
+  const [newBrand, setNewBrand] = useState('')
+
+  function handleOpenNewBrandModal() {
+    setIsNewBrandModalOpen(true);
+  }
+
+  function handleCloseNewBrandModal() {
+    setIsNewBrandModalOpen(false);
+  }
+
+  function handleCreateNewBrand(event: FormEvent) {
+    event.preventDefault()
+
+    const body = {
+      name:newBrand
+    }
+
+    api.post("/brands", body).then((response) => {
+      console.log(response)
+      return response
+    })
+    
+    setNewBrand('')
+    handleCloseNewBrandModal()
+  }
+   
+
   return (
     <DashboardTemplate>
+      <Modal
+        isOpen={isNewBrandModalOpen}
+        onRequestClose={handleCloseNewBrandModal}
+        overlayClassName="reactModalOverlay"
+        className="reactModalContent"
+      > 
+        <button
+          type="button"
+          onClick={handleCloseNewBrandModal}
+          className="reactModalClose"
+        >
+          <img src={closeImg} alt="Fechar Modal" />
+        </button>
+        <form onSubmit={handleCreateNewBrand}>
+          <h2>Cadastrar Marca</h2> 
+          <input
+            placeholder="Nome da marca"
+            value={newBrand}
+            onChange={event => setNewBrand(event.target.value)}
+          />
+          <button type="submit">Cadastrar</button>
+        </form>
+        
+      </Modal>
       <Box mb={3}>
         <Button
           color="primary"
           variant="contained"
-          onClick={() => console.log("nova marca")}>
+          onClick={handleOpenNewBrandModal}>
           Adicionar nova Marca
         </Button>
       </Box>

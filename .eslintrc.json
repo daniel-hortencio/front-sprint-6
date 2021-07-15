@@ -55,7 +55,8 @@
         "no-console": "off",
         "react/no-array-index-key": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "prefer-const": "off"
+        "prefer-const": "off",
+        "react/jsx-props-no-spreading": "off"
     },
     "settings": {
         "import/resolver": {

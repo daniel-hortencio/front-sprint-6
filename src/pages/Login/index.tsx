@@ -3,27 +3,32 @@ import { useHistory } from 'react-router-dom';
 import { TextField, Button, Box } from '@material-ui/core';
 import { LoginTemplate } from '../../templates/Login';
 import styles from './styles.module.scss';
+import { useAuth } from '../../hooks/useAuth';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const history = useHistory();
+  const { handleLogin } = useAuth();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    history.push('/marcas');
+    handleLogin(email, password);
   };
 
   return (
     <div className={styles.Container}>
       <div className={styles.Content}>
-        <h2>Carango<span>Bom.</span></h2>
-        <p>Promovendo <br/> transformação digital <br/> no segmento <br/> <span>automotivo</span></p>
+        <h2>
+          Carango<span>Bom.</span>
+        </h2>
+        <p>
+          Promovendo <br /> transformação digital <br /> no segmento <br />{' '}
+          <span>automotivo</span>
+        </p>
       </div>
-      <LoginTemplate >
-        <form onSubmit={handleSubmit} >
+      <LoginTemplate>
+        <form onSubmit={handleSubmit}>
           <h2>Faça seu login.</h2>
           <Box mb={2} className={styles.box}>
             <TextField
@@ -35,7 +40,7 @@ const Login: React.FC = () => {
               onChange={e => setEmail(e.target.value)}
             />
           </Box>
-          <Box mb={2} >
+          <Box mb={2}>
             <TextField
               id="password"
               label="Senha"
