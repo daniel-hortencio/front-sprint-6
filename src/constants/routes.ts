@@ -3,6 +3,7 @@ import Login from '../pages/Login';
 import Brands from '../pages/Brands';
 import Autos from '../pages/Autos';
 import EditAuto from '../pages/AutosEdit'
+import BrandsAuto from '../pages/BrandsEdit'
 import Summary from '../pages/Summary';
 import { RouteTypes } from '../types/routes';
 
@@ -29,6 +30,12 @@ export const routes: RouteTypes[] = [
         path: `/editar-veiculo/:id`,
         isPrivate: true,
         component: EditAuto,
+    },
+    {
+        exact: true,
+        path: `/editar-marca/:id`,
+        isPrivate: true,
+        component: BrandsAuto,
     },
     {
         exact: true,

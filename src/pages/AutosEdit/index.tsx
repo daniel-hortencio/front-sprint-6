@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable radix */
 import { FormEvent, useEffect, useState } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
@@ -31,7 +32,7 @@ const Home: React.FC = () => {
   const params: any = useParams();
   const history = useHistory();
 
-  console.log(params);
+  const carId = parseInt(params.id);
 
   useEffect(() => {
     getBrands()
@@ -41,6 +42,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     getAuto(parseInt(params.id)).then(res => {
+      console.log(res);
       setModel(res.model);
       setYear(`${res.year}`);
       setPrice(`${res.price}`);
@@ -51,14 +53,14 @@ const Home: React.FC = () => {
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    const carId = parseInt(params.id);
-
     const body = {
       model,
       price: parseInt(price),
       year: parseInt(year),
       brandId: parseInt(selectedBrand),
     };
+
+    console.log({ carId, body });
 
     editAutos(carId, body)
       .then(() => {
@@ -129,7 +131,7 @@ const Home: React.FC = () => {
 
         {/* <button type="submit">Atualizar</button> */}
         <Button color="primary" variant="contained" type="submit">
-          Atualizar
+          Editar Veículo
         </Button>
       </form>
     </DashboardTemplate>

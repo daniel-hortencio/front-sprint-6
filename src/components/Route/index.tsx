@@ -9,8 +9,8 @@ const Route: React.FC<RouteTypes> = ({
   isPrivate = false,
   component,
 }) => {
-  // const { user } = useAuth();
   const { isAuthenticated } = useAuth();
+  // const isAuthenticated = true;
 
   return isPrivate === isAuthenticated ? (
     <ReactDOMRoute path={path} exact={exact} component={component} />

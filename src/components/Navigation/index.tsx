@@ -22,54 +22,104 @@ const Navigation = () => {
     setAnchorEl(null);
   };
 
-  return <nav style={mediaMD ? { marginTop: '20px' } : { float: 'right', clear: 'both' }}>
-
-    {mediaMD ? (
-      <>
-        <MenuItem component={Link} to="/dashboard" selected={location.pathname === "/dashboard"}>Dashboard</MenuItem>
-        <MenuItem component={Link} to="/veiculos" selected={location.pathname === "/veiculos"}>Veículos</MenuItem>
-        <MenuItem component={Link} to="/marcas" selected={location.pathname === "/marcas"}>Marcas</MenuItem>
-        <MenuItem component={Link} to="/sair" >Sair</MenuItem>
-      </>
-    ) : (
-      <>
-        <IconButton
-          id="demo-positioned-button"
-          aria-controls="demo-positioned-menu"
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Menu
-          id="demo-positioned-menu"
-          aria-labelledby="demo-positioned-button"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
-
-          <MenuItem component={Link} to="/" >Entrar</MenuItem>
-          <MenuItem component={Link} to="/veiculos" selected={location.pathname === "/veiculos"}>Veículos</MenuItem>
-          <MenuItem component={Link} to="/marcas" selected={location.pathname === "/marcas"}>Marcas</MenuItem>
-          <MenuItem component={Link} to="/usuarios" selected={location.pathname === "/usuarios"}>Usuários</MenuItem>
-          <MenuItem component={Link} to="/dashboard" selected={location.pathname === "/dashboard"}>Dashboard</MenuItem>
-          <MenuItem component={Link} to="/sair" >Sair</MenuItem>
-
-        </Menu>
-      </>
-    )}
-
-  </nav>;
+  return (
+    <nav
+      style={
+        mediaMD ? { marginTop: '20px' } : { float: 'right', clear: 'both' }
+      }
+    >
+      {mediaMD ? (
+        <>
+          <MenuItem
+            component={Link}
+            to="/dashboard"
+            selected={location.pathname === '/dashboard'}
+          >
+            Dashboard
+          </MenuItem>
+          <MenuItem
+            component={Link}
+            to="/veiculos"
+            selected={location.pathname === '/veiculos'}
+          >
+            Veículos
+          </MenuItem>
+          <MenuItem
+            component={Link}
+            to="/marcas"
+            selected={location.pathname === '/marcas'}
+          >
+            Marcas
+          </MenuItem>
+          <MenuItem component={Link} to="/sair">
+            Sair
+          </MenuItem>
+        </>
+      ) : (
+        <>
+          <IconButton
+            id="demo-positioned-button"
+            aria-controls="demo-positioned-menu"
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <MenuItem component={Link} to="/">
+              Entrar
+            </MenuItem>
+            <MenuItem
+              component={Link}
+              to="/veiculos"
+              selected={location.pathname === '/veiculos'}
+            >
+              Veículos
+            </MenuItem>
+            <MenuItem
+              component={Link}
+              to="/marcas"
+              selected={location.pathname === '/marcas'}
+            >
+              Marcas
+            </MenuItem>
+            <MenuItem
+              component={Link}
+              to="/usuarios"
+              selected={location.pathname === '/usuarios'}
+            >
+              Usuários
+            </MenuItem>
+            <MenuItem
+              component={Link}
+              to="/dashboard"
+              selected={location.pathname === '/dashboard'}
+            >
+              Dashboard
+            </MenuItem>
+            <MenuItem component={Link} to="/sair">
+              Sair
+            </MenuItem>
+          </Menu>
+        </>
+      )}
+    </nav>
+  );
 };
 
 export default Navigation;
