@@ -10,11 +10,10 @@ import { DashboardTemplate } from '../../templates/Dashboard';
 import Table from '../../components/Table';
 import { getBrands, deleteBrand } from '../../services/brands';
 import { BrandTypes } from '../../types/brand';
-import '../../styles.scss'
-import {api} from '../../services/api'
+import '../../styles.scss';
+import { api } from '../../services/api';
 
-import closeImg from '../../assets/close.svg'
-
+import closeImg from '../../assets/close.svg';
 
 const Home: React.FC = () => {
   const [brands, setBrands] = useState<BrandTypes[]>([]);
@@ -75,8 +74,8 @@ const Home: React.FC = () => {
       .catch(err => console.log(err));
   }, []);
 
-  const [isNewBrandModalOpen, setIsNewBrandModalOpen] = useState(false)
-  const [newBrand, setNewBrand] = useState('')
+  const [isNewBrandModalOpen, setIsNewBrandModalOpen] = useState(false);
+  const [newBrand, setNewBrand] = useState('');
 
   function handleOpenNewBrandModal() {
     setIsNewBrandModalOpen(true);
@@ -87,21 +86,20 @@ const Home: React.FC = () => {
   }
 
   function handleCreateNewBrand(event: FormEvent) {
-    event.preventDefault()
+    event.preventDefault();
 
     const body = {
-      name:newBrand
-    }
+      name: newBrand,
+    };
 
-    api.post("/brands", body).then((response) => {
-      console.log(response)
-      return response
-    })
-    
-    setNewBrand('')
-    handleCloseNewBrandModal()
+    api.post('/brands', body).then(response => {
+      console.log(response);
+      return response;
+    });
+
+    setNewBrand('');
+    handleCloseNewBrandModal();
   }
-   
 
   return (
     <DashboardTemplate>
@@ -110,7 +108,7 @@ const Home: React.FC = () => {
         onRequestClose={handleCloseNewBrandModal}
         overlayClassName="reactModalOverlay"
         className="reactModalContent"
-      > 
+      >
         <button
           type="button"
           onClick={handleCloseNewBrandModal}
@@ -119,7 +117,7 @@ const Home: React.FC = () => {
           <img src={closeImg} alt="Fechar Modal" />
         </button>
         <form onSubmit={handleCreateNewBrand}>
-          <h2>Cadastrar Marca</h2> 
+          <h2>Cadastrar Marca</h2>
           <input
             placeholder="Nome da marca"
             value={newBrand}
@@ -127,42 +125,42 @@ const Home: React.FC = () => {
           />
           <button type="submit">Cadastrar</button>
         </form>
-        
       </Modal>
       <Box mb={3}>
         <Button
           color="primary"
           variant="contained"
-          onClick={handleOpenNewBrandModal}>
+          onClick={handleOpenNewBrandModal}
+        >
           Adicionar nova Marca
         </Button>
       </Box>
       <Table head={tableHead}>
         {brands.length > 0
           ? brands.map((brand: BrandTypes) => (
-            <TableRow>
-              <TableCell component="th" id={`${brand.id}`} scope="row">
-                {brand.id}
-              </TableCell>
-              <TableCell scope="row">{brand.name}</TableCell>
-              <TableCell>
-                <Link to="/" style={{ color: 'inherit' }}>
-                  <CreateIcon />
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(brand.id)}
-                  style={{
-                    cursor: 'pointer',
-                    background: 'none',
-                    border: 'none',
-                  }}
-                >
-                  <DeleteOutlineIcon />
-                </button>
-              </TableCell>
-            </TableRow>
-          ))
+              <TableRow>
+                <TableCell component="th" id={`${brand.id}`} scope="row">
+                  {brand.id}
+                </TableCell>
+                <TableCell scope="row">{brand.name}</TableCell>
+                <TableCell>
+                  <Link to={`/editar-marca/${brand.id}`}>
+                    <CreateIcon />
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(brand.id)}
+                    style={{
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                    }}
+                  >
+                    <DeleteOutlineIcon />
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))
           : 'Nenhum resutado encontrado'}
       </Table>
     </DashboardTemplate>

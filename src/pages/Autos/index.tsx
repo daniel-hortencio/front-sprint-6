@@ -236,7 +236,7 @@ const Home: React.FC = () => {
                 <TableCell scope="row">{auto.year}</TableCell>
                 <TableCell scope="row">R$ {auto.price}</TableCell>
                 <TableCell>
-                  <Link to={`editar-veiculo/${auto.id}`}>
+                  <Link to={`/editar-veiculo/${auto.id}`}>
                     <CreateIcon />
                   </Link>
                   <button
